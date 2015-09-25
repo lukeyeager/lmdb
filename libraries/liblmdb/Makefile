@@ -36,10 +36,14 @@ PROGS	= $(IPROGS) mtest mtest2 mtest3 mtest4 mtest5
 all:	$(ILIBS) $(PROGS)
 
 install: $(ILIBS) $(IPROGS) $(IHDRS)
-	for f in $(IPROGS); do cp $$f $(DESTDIR)$(prefix)/bin; done
-	for f in $(ILIBS); do cp $$f $(DESTDIR)$(prefix)/lib; done
-	for f in $(IHDRS); do cp $$f $(DESTDIR)$(prefix)/include; done
-	for f in $(IDOCS); do cp $$f $(DESTDIR)$(prefix)/man/man1; done
+	mkdir -p $(DESTDIR)$(prefix)/bin
+	mkdir -p $(DESTDIR)$(prefix)/lib
+	mkdir -p $(DESTDIR)$(prefix)/include
+	mkdir -p $(DESTDIR)$(prefix)/man/man1
+	for f in $(IPROGS); do install -m 0755 $$f $(DESTDIR)$(prefix)/bin; done
+	for f in $(ILIBS); do install -m 0644 $$f $(DESTDIR)$(prefix)/lib; done
+	for f in $(IHDRS); do install -m 0644 $$f $(DESTDIR)$(prefix)/include; done
+	for f in $(IDOCS); do install -m 0644 $$f $(DESTDIR)$(prefix)/man/man1; done
 
 clean:
 	rm -rf $(PROGS) *.[ao] *.[ls]o *~ testdb
